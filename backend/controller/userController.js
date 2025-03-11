@@ -1,8 +1,7 @@
-import userModel from "../models/userModel";
+import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import validator from "validator"
-import { json } from "body-parser";
 
 
 
@@ -36,7 +35,7 @@ const registerUser = async (req,res) => {
             }
 
             if (password.length<8) {
-                  return res,json({success:false,message:"Please enter a Strong Password"})
+                  return res.json({success:false,message:"Please enter a Strong Password"})
             }
 
             // hashing user Password

@@ -4,6 +4,7 @@ import { connectDB } from "./config/db.js"
 import foodRouter from "./routes/foodRoute.js"
 import userRouter from "./routes/userRoute.js"
 import 'dotenv/config'
+import bodyParser from "body-parser"
 
 
 // app Config
@@ -11,7 +12,7 @@ const app = express()
 const port = 4000
 
 // Middlewere
-app.use(express.json())
+app.use(bodyParser.json())
 app.use(cors())
 
 // DB Connection
