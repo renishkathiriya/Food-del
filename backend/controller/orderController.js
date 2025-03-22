@@ -17,7 +17,7 @@ const placeOrder = async (req, res) => {
                   items: req.body.items,
                   amount: req.body.amount,
                   address: req.body.address,
-                  payment: req.body.payment
+                  // payment: req.body.payment
             })
             await newOrder.save();
             await userModel.findByIdAndUpdate(req.body.userId, { cartData: {} })
@@ -60,21 +60,32 @@ const placeOrder = async (req, res) => {
 }
 
 const verifyOrder = async (req, res) => {
-      const {orderId,success} = req.body;
+      const { orderId, success } = req.body;
       try {
-            if (success==="true") {
+            if (success === "true") {
                   // await orderModel.findbyIdAndUpdate(orderId,{payment:true})
-                  await orderModel.findByIdAndUpdate(orderId,{payment:true})
-                  res.json({success:true,message:"Paid"})
+                  await orderModel.findByIdAndUpdate(orderId, { payment: true })
+                  res.json({ success: true, message: "Paid" })
             }
-            else{
+            else {
                   await orderModel.findByIdAndDelete(orderId);
-                  res.json({success:false,message:"Not Paid"})
+                  res.json({ success: false, message: "Not Paid" })
             }
+      } catch (error) {
+            console.log(error);
+            res.json({ success: false, message: "Error" })
+      }
+}
+
+// USER OREDR FOR FRONTEND
+const userOrders = async (req, res) => {
+      try {
+            const orders = await orderModel.find({userId:req.body.userId})
+            res.json({success:true,data:orders})
       } catch (error) {
             console.log(error);
             res.json({success:false,message:"Error"})
       }
 }
 
-export { placeOrder, verifyOrder }
+export { placeOrder, verifyOrder, userOrders }
